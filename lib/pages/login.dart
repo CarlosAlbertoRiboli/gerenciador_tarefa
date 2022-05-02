@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_signin_button/flutter_signin_button.dart';
+import 'package:lista_de_tarefa_app/models/usuario.dart';
 import 'package:lista_de_tarefa_app/services/auth_service.dart';
 
 class LoginPage extends StatefulWidget {
@@ -20,6 +21,7 @@ class _LoginPageState extends State<LoginPage> {
   late String actionButton;
   late String toggleButton;
   bool loading = false;
+
 
   final GlobalKey<ScaffoldMessengerState> scaffoldMessengerKey =
       GlobalKey<ScaffoldMessengerState>();
@@ -124,6 +126,8 @@ class _LoginPageState extends State<LoginPage> {
                             onPressed: () async {
                               var logado = await login.loginEmail(
                                   email.text, senha.text);
+                                  User.email = logado!;
+                              // ignore: unnecessary_null_comparison
                               if (logado != null) {
                                 Navigator.of(context)
                                     .pushReplacementNamed('/home');
@@ -143,6 +147,7 @@ class _LoginPageState extends State<LoginPage> {
                             text: "Acessar com o Google",
                             onPressed: () async {
                               var logado = await login.loginGoogle();
+                              User.email = logado.toString();
                               if (logado != null) {
                                 Navigator.of(context)
                                     .pushReplacementNamed('/home');

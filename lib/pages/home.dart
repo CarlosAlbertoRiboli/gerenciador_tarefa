@@ -1,4 +1,8 @@
+// ignore_for_file: deprecated_member_use
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:lista_de_tarefa_app/models/tarefa.dart';
+import 'package:lista_de_tarefa_app/models/usuario.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -11,11 +15,44 @@ class _HomePageState extends State<HomePage> {
   final formKey = GlobalKey<FormState>();
   final dataControler = TextEditingController();
   final tarefaControler = TextEditingController();
+
+  List<ListaTarefa> itens = [];
+  var colecao = FirebaseFirestore.instance.collection('lista-registros');
+
+  @override
+  void initState() {
+    super.initState();
+    carregaDados();
+  }
+
+  void carregaDados() {
+    colecao.snapshots().listen((event) {
+      setState(() {
+        itens.clear();
+      });
+      for (var c in event.docs) {
+        if (c['email'] == User.email) {
+          String id = c.id;
+          String email = c['email'];
+          String tarefa = c['tarefa'];
+          String data = c['data'];
+          ListaTarefa t = ListaTarefa(id, email, tarefa, data);
+          setState(() {
+            itens.add(t);
+          });
+        }
+      }
+    });
+  }
+
   showAlertDialog(BuildContext context) {
     // set up the buttons
     Widget continueButton = FlatButton(
       child: const Text("Confirmar"),
       onPressed: () {
+        ListaTarefa t = ListaTarefa(
+            '1', User.email, tarefaControler.text, dataControler.text);
+        colecao.doc().set(t.toMap());
         dataControler.clear();
         tarefaControler.clear();
         Navigator.of(context).pop();
@@ -57,7 +94,8 @@ class _HomePageState extends State<HomePage> {
                           firstDate: DateTime(2000),
                           lastDate: DateTime(2025),
                         );
-                        dataControler.text = dataAtual.toString().substring(0,10);
+                        dataControler.text =
+                            dataAtual.toString().substring(0, 10);
                       },
                       child: const Icon(Icons.calendar_month),
                     ),
@@ -88,7 +126,10 @@ class _HomePageState extends State<HomePage> {
           backgroundColor: Colors.indigo,
           centerTitle: true,
           actions: <Widget>[
-            IconButton(onPressed: () {}, icon: const Icon(Icons.exit_to_app))
+            IconButton(onPressed: () {
+              Navigator.of(context)
+                                    .pushReplacementNamed('/login');
+            }, icon: const Icon(Icons.exit_to_app))
           ],
         ),
         backgroundColor: Colors.white,
@@ -101,7 +142,7 @@ class _HomePageState extends State<HomePage> {
         ),
         body: ListView.builder(
           padding: const EdgeInsets.all(10),
-          itemCount: 1,
+          itemCount: itens.length,
           itemBuilder: (context, index) {
             return Card(
               child: Column(
@@ -114,21 +155,12 @@ class _HomePageState extends State<HomePage> {
                         color: Colors.red,
                       ),
                       tooltip: 'Excluir',
-                      onPressed: () {},
+                      onPressed: () {
+                        colecao.doc(itens[index].id).delete();
+                      },
                     ),
-                    title: const Text('Beber Agua'),
-                    subtitle: const Text('Segunda Feira'),
-                  ),
-                  ElevatedButton(
-                    onPressed: () async {
-                      Future<DateTime?> dataAtual = showDatePicker(
-                        context: context,
-                        initialDate: DateTime.now(),
-                        firstDate: DateTime(2000),
-                        lastDate: DateTime(2025),
-                      );
-                    },
-                    child: const Text('Data'),
+                    title: Text(itens[index].tarefa),
+                    subtitle: Text(itens[index].data),
                   ),
                 ],
               ),
