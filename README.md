@@ -1,16 +1,33 @@
-# lista_de_tarefa_app
+# Lista de Tarefa App
 
-A new Flutter project.
 
-## Getting Started
+Lista de Tarefa App é um aplicativo Flutter desenvolvido para realizar o armazenamneto de tarefas.
 
-This project is a starting point for a Flutter application.
+O aplicativo foi desenvolvido para que se possa inserir as atividades que pretende fazer e em qual dia ela será realizada.
 
-A few resources to get you started if this is your first Flutter project:
+O aplicativo contém as seguintes funcionalidades:
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
+- Autenticação de login por email e conta Google via Firebase
+- Armazenamento de dados via Firebase Cloud Store
+- Cadastro das atividades
+- Exclusão das atividades
 
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+
+## Instalação
+
+Para instalação primeiramente clone o repositório local, em seguida abra o diretório e instale as dependências
+
+```sh
+git clone https://github.com/RToramaru/lista-de-tarefa-app
+cd lista-de-tarefa-app
+flutter pub get
+```
+
+## Uso
+
+Para utilizar o aplicativo é necessário adicionar um arquivo assinado key.properties na pasta android.
+Incluir o projeto no Firebase para autenticação e para registros no banco de dados
+
+## Desenvolvedor
+
+Rafael Almeida Soares https://github.com/RToramaru
