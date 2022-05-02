@@ -27,6 +27,7 @@ class AuthService {
       await _auth.signInWithEmailAndPassword(email: email, password: senha);
       User? usuario = _auth.currentUser;
       return usuario?.email;
+    // ignore: unused_catch_clause
     } on FirebaseAuthException catch (e) {
       return null;
     }
