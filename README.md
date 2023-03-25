@@ -25,8 +25,7 @@ flutter pub get
 
 ## Uso
 
-Para utilizar o aplicativo é necessário adicionar um arquivo assinado key.properties na pasta android.
-Incluir o projeto no Firebase para autenticação e para registros no banco de dados
+Para utilizar o aplicativo é necessário incluir o projeto no Firebase para autenticação e para registros no banco de dados
 
 ## Desenvolvedor
 
@@ -35,4 +34,7 @@ Rafael Almeida Soares https://github.com/RToramaru
 
 ## Demonstração
 
-![](/screen/demonstracao.gif)
+![](/screens/1.png)
+![](/screens/2.png)
+![](/screens/3.png)
+![](/screens/4.png)
